@@ -1,43 +1,31 @@
 class Solution {
 public:
-    int shortestSubarray(vector<int>& nums, int K) {
-        int N = nums.size();
-        
-        deque<int> deq;
-        vector<long long> cumulativeSum(N, 0);  // This stores the cumulative sum
+    int shortestSubarray(vector<int>& nums, int k) {
+        int n= nums.size();
+        int ans=INT_MAX;
+        deque<int> dq;
+        vector<long long> prefix(n);
+        int j=0;
+        while(j<n){
+            if(j==0) prefix[j]=nums[j];
+            else prefix[j]= nums[j]+prefix[j-1];
 
-        int result = INT_MAX;
-        int j = 0;
+            if(prefix[j] >= k) ans= min(ans, j+1);
 
-        // Compute cumulative sum in the cumulativeSum array using while loop
-        while (j < N) {
-            if (j == 0)
-                cumulativeSum[j] = nums[j];
-            else
-                cumulativeSum[j] = cumulativeSum[j - 1] + nums[j];
-            
-            // If the cumulative sum from the start to j is already >= K, update result
-            if (cumulativeSum[j] >= K) 
-                result = min(result, j + 1);
-            
-            // Remove indices from the deque where the subarray sum is >= K
-            while (!deq.empty() && cumulativeSum[j] - cumulativeSum[deq.front()] >= K) {
-                result = min(result, j - deq.front());  // Calculate the length of the subarray
-                deq.pop_front();  // Remove the front index from the deque
+            while(!dq.empty() && prefix[j] - prefix[dq.front()] >=k){
+                ans = min(ans, j- dq.front());
+                dq.pop_front();
+            }
+            while(!dq.empty() && prefix[j] <= prefix[dq.back()]){
+                dq.pop_back();
             }
 
-            // Maintain the monotonic property of the deque (increasing order of cumulative sums)
-            while (!deq.empty() && cumulativeSum[j] <= cumulativeSum[deq.back()]) {
-                deq.pop_back();  // Remove indices that won't be useful
-            }
-
-            // Add the current index to the deque
-            deq.push_back(j);
-
-            j++;  // Increment j to move to the next index
+            dq.push_back(j);
+            j++;
         }
 
-        // Return the result if we found a valid subarray, otherwise return -1
-        return result == INT_MAX ? -1 : result;
+        if(ans==INT_MAX) return -1;
+        else return ans;
+
     }
 };
