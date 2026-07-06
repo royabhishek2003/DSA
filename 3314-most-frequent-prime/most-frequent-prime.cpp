@@ -20,13 +20,14 @@ public:
         int maxfreq=0;
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                
                 for(int k=0;k<8;k++){
                     int num=0;
                     int x=i;
                     int y=j;
                     while(x>=0 && x<n && y>=0 && y<m){
                         num= num*10 + mat[x][y];
+                        x= x + dx[k];
+                        y= y + dy[k];
                         if(num>10 && isprime(num)){
                             mp[num]++;
                             if(mp[num] > maxfreq){
@@ -37,8 +38,9 @@ public:
                                 ans=num;
                             }
                         }
-                        x= x + dx[k];
-                        y= y + dy[k];
+                       
+                        
+                        
                     }
                 }
             }
