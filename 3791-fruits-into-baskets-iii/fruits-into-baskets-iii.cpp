@@ -1,53 +1,43 @@
 class Solution {
 public:
-     void build(int i, int l, int r, vector<int>& baskets, vector<int>& segmentTree) {
-        if (l == r) {
-            segmentTree[i] = baskets[l];
+    vector<int> segmentTree;
+    void buildsegmentTree(int i, int low, int high, vector<int> &baskets){
+        if(low == high){
+            segmentTree[i]=baskets[low];
             return;
         }
-        int m = (l + r) / 2;
-
-        build(2*i + 1, l, m, baskets, segmentTree);
-        build(2*i + 2, m + 1, r, baskets, segmentTree);
-
-        segmentTree[i] = max(segmentTree[2*i + 1], segmentTree[2*i + 2]);
+        int mid = low +(high-low)/2;
+        buildsegmentTree(2*i+1,low,mid,baskets);
+        buildsegmentTree(2*i+2,mid+1,high,baskets);
+        segmentTree[i]= max(segmentTree[2*i+1], segmentTree[2*i+2]);
     }
-    bool querySegmentTree(int i, int l, int r, vector<int>& segmentTree, int val) {
-        if (segmentTree[i] < val)
-            return false; // No basket in this segment
 
-        if (l == r) {
-            segmentTree[i] = -1; // Mark basket as used
+    bool searchquery(int fruit, int i, int low, int high){
+        if(segmentTree[i] < fruit) return false;
+        if(low == high){
+            segmentTree[i]=-1;
             return true;
         }
+        int mid = low +(high-low)/2;
 
-        int mid = (l + r) / 2;
-        bool placed = false;
-
-        if (segmentTree[2*i + 1] >= val) {
-            placed = querySegmentTree(2*i + 1, l, mid, segmentTree, val);
-        } else {
-            placed = querySegmentTree(2*i + 2, mid + 1, r, segmentTree, val);
+        bool ans = searchquery(fruit,2*i+1,low,mid);
+        if(!ans){
+            ans= searchquery(fruit,2*i+2,mid+1,high);
         }
-
-        segmentTree[i] = max(segmentTree[2*i + 1], segmentTree[2*i + 2]);
-
-        return placed;
+        segmentTree[i]= max(segmentTree[2*i+1], segmentTree[2*i+2]);
+        return true;
     }
+
+
     int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
-
+        // using segment Tree 
         int n = fruits.size();
-        vector<int> segmentTree(4 * n, -1);
-
-        build(0, 0, n - 1, baskets, segmentTree);
-
-        int unplaced = 0;
-        for (int &fruit : fruits) {
-            if (!querySegmentTree(0, 0, n - 1, segmentTree, fruit)) {
-                unplaced++;
-            }
+        segmentTree.resize(4*n);
+        buildsegmentTree(0,0,n-1,baskets);
+        int unplaced=0;
+        for(int &fruit: fruits){
+            if(!searchquery(fruit,0,0,n-1)) unplaced++;
         }
-
         return unplaced;
     }
 };
