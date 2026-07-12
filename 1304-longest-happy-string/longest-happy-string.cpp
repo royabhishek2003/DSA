@@ -1,50 +1,34 @@
 class Solution {
 public:
     string longestDiverseString(int a, int b, int c) { 
-        if(a==3 && b==0 && c==4) return "ccaacca";
-        priority_queue<pair<int,char>> pq;
-        if(a!=0) pq.push({a,'a'});
-        if(b!=0) pq.push({b,'b'});
-        if(c!=0) pq.push({c,'c'});
-        string s ="";
+        priority_queue<pair<int, char>> pq;
+
+        if (a > 0) pq.push({a, 'a'});
+        if (b > 0) pq.push({b, 'b'});
+        if (c > 0) pq.push({c, 'c'});
+
+        string ans;
         while(!pq.empty()){
-            int ele= pq.top().first;
-            char ch = pq.top().second;
+            auto [ele1,ch1]=pq.top();
             pq.pop();
-            bool first=false;
-            bool second= false;
-            if(s.empty() || s.back() != ch){
-                first=true;
-                if(ele==1){
-                    s+=ch;
-                    ele--;
-                }
-                else{
-                    s+=ch;
-                    s+=ch;
-                    ele -=2;
-                }
+            int n= ans.length();
+            // means ch1 dalne pe 3 consecutive character ban jayega 
+            if(n>=2 && ans[n-1]==ch1 && ans[n-2]==ch1){
+                if(pq.size() ==0) return ans;
+                auto [ele2,ch2]=pq.top();
+                pq.pop();
+                ans += ch2;
+                ele2--;
+                if(ele2>0) pq.push({ele2,ch2});
+                pq.push({ele1,ch1});
+            } 
+            else{  // means ham le sakte hai top wale ko 
+                ans += ch1;
+                ele1 --;
+                if(ele1>0) pq.push({ele1,ch1});
             }
-            
-            if(pq.size()>0){
-                int ele2= pq.top().first;
-                char ch2 = pq.top().second;
-                if(s.empty() || s.back() != ch2){
-                    second=true;
-                    pq.pop();
-                    s+=ch2;
-                    ele2--;
-                    if(ele2>0) pq.push({ele2,ch2});
-                }
-            }
-            if(ele>0){
-                pq.push({ele,ch});
-            }
-
-            if(!first && !second) break;
-
         }
 
-        return s;
+        return ans;
     }
 };
