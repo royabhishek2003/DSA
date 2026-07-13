@@ -5,19 +5,14 @@ public:
         string str="123456789";
         int i=0;
         int j=1;
-        set<int> s;
-        for(int i=0;i<10;i++){
-            for(int j=i+1;j<10;j++){
+        vector<int> ans;
+        for(int i=0;i<9;i++){
+            for(int j=i+1;j<9;j++){
                 int num= stoi(str.substr(i,j-i+1));
-                if(num >= low && num <= high) s.insert(num);
+                if(num >= low && num <= high) ans.push_back(num);
             }
         }
-        vector<int> ans;
-        auto it = s.begin();
-        while(it!=s.end()){
-            ans.push_back(*it);
-            it++;
-        }
+        sort(begin(ans),end(ans));
         return ans;
     }
 };
