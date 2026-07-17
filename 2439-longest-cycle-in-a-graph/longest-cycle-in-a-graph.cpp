@@ -6,10 +6,6 @@ public:
         if(v == -1) return;
         visited[u]=true;
         inrecursion[u]=true;
-        // if(v == -1) {
-        //     inrecursion[u]=false;
-        //     return;
-        // }
         
         if(visited[v] && inrecursion[v]){
             maxlengthcycle= max(maxlengthcycle,count[u]-count[v]+1);
