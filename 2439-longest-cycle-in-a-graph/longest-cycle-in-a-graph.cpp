@@ -3,12 +3,13 @@ public:
     int maxlengthcycle = -1;
     void dfs(int u, auto &visited, auto &inrecursion,auto &count,auto &edges){
         int v= edges[u];
+        if(v == -1) return;
         visited[u]=true;
         inrecursion[u]=true;
-        if(v == -1) {
-            inrecursion[u]=false;
-            return;
-        }
+        // if(v == -1) {
+        //     inrecursion[u]=false;
+        //     return;
+        // }
         
         if(visited[v] && inrecursion[v]){
             maxlengthcycle= max(maxlengthcycle,count[u]-count[v]+1);
