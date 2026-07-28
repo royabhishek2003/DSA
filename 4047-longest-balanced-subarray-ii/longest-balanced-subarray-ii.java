@@ -37,16 +37,18 @@ class Solution {
         minsegTree.set(i,Math.min(minsegTree.get(2*i+1),minsegTree.get(2*i+2)));
         maxsegTree.set(i,Math.max(maxsegTree.get(2*i+1),maxsegTree.get(2*i+2)));
     }
-    public int findleftmostzero(int i, int low,int high){
+    public int findleftmostzero(int i, int low,int high, int left,int right){
 
         propagate(i,low,high);
+        if (high < left || low > right)
+        return -1;
 
         if(minsegTree.get(i)>0 || maxsegTree.get(i) <0) return -1;
         if(low == high ) return low;
         int mid = low +(high-low)/2;
-        int leftresult= findleftmostzero(2*i+1,low,mid);
+        int leftresult= findleftmostzero(2*i+1,low,mid,left,right);
         if(leftresult!=-1) return leftresult;   
-        return findleftmostzero(2*i+2,mid+1,high);
+        return findleftmostzero(2*i+2,mid+1,high,left,right);
     }
     public int longestBalanced(int[] nums) {
         int n= nums.length;
@@ -84,7 +86,7 @@ class Solution {
             //     }
             // }
 
-            int l= findleftmostzero(0,0,n-1);
+            int l= findleftmostzero(0,0,n-1,0,r);
             if(l!=-1) maxlen= Math.max(maxlen,r-l+1);
             mp.put(nums[r],r);
         }
