@@ -3,9 +3,11 @@ class Solution {
         int n= nums.length;
        
         int ans =0;
-        for(int i=0;i<n;i++){
-            HashSet<Integer> odd= new HashSet();
-            HashSet<Integer> even= new HashSet();
+        HashSet<Integer> odd= new HashSet();
+        HashSet<Integer> even= new HashSet();
+        for(int i=0;i<n;i++){ 
+            odd.clear();
+            even.clear();
             for(int j=i;j<n;j++){
                 if(nums[j]%2!=0){
                     odd.add(nums[j]);
