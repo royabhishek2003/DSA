@@ -20,5 +20,20 @@ public:
         n= coins.size();
         vector<vector<int>> dp(n+1,vector<int>(amount+1,-1));
         return solve(0,coins,amount,dp);
+
+        // using Tabulation method 
+        // vector<long long> t(amount+1,0);
+        // t[0]=1;
+        // for(int &coin: coins){
+        //     for(int i=coin;i<=amount;i++){
+        //         t[i]= (long long)(t[i]+ t[i-coin]);
+        //     }
+        // }
+        // return t[amount];
+
+
+        vector<int> t(amount+1,0);
+        
+        
     }
 };
