@@ -1,7 +1,7 @@
 class Solution {
 public:
     int dp[500][500];
-    bool solve(int i, int j, auto &piles, auto &dp){
+    int solve(int i, int j, auto &piles, auto &dp){
         if(i>=piles.size() || j<0) return 0;
         if(i==j){
             return piles[i];
@@ -20,7 +20,7 @@ public:
        }
 
        int alice_score= solve(0,n-1,piles,dp);
-       if(total_sum- alice_score > alice_score) return true;
-       return false;
+       if(total_sum- alice_score > alice_score) return false;
+       return true;
     }
 };
