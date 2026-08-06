@@ -2,68 +2,56 @@ class Solution {
 public:
     string shortestCommonSupersequence(string s1, string s2) {
 
-        // Lengths of both strings
-        int m = s1.length();
-        int n = s2.length();
+        int m = s1.size();
+        int n = s2.size();
 
-        // t[i][j] = Length of the Shortest Common Supersequence (SCS)
+        // LCS DP table
+        vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
 
-        vector<vector<int>> t(m + 1, vector<int>(n + 1));
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
 
-        // building the shorted commmon supersubsequence 
-        for (int i = 0; i <= m; i++) {
-            for (int j = 0; j <= n; j++) {
-
-                // If one string is empty, SCS is simply the other string.
-                if (i == 0 || j == 0)
-                    t[i][j] = i + j;
-                else if (s1[i - 1] == s2[j - 1])
-                    t[i][j] = 1 + t[i - 1][j - 1];
+                if (s1[i - 1] == s2[j - 1])
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
                 else
-                    t[i][j] = 1 + min(t[i - 1][j], t[i][j - 1]);
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
             }
         }
-
-        // Reconstruct the actual SCS string
-        string scs = "";
-
-        // Start from bottom-right of DP table
-        int i = m, j = n;
+        string ans = "";
+        int i = m;
+        int j = n;
 
         while (i > 0 && j > 0) {
             if (s1[i - 1] == s2[j - 1]) {
-                scs.push_back(s1[i - 1]);
+                ans.push_back(s1[i - 1]);
                 i--;
                 j--;
             }
-            else {
 
-                // Upper cell has smaller SCS length.
-                // So current character of s1 is part of answer.
-                if (t[i - 1][j] < t[i][j - 1]) {
-                    scs.push_back(s1[i - 1]);
-                    i--;
-                }
-                else {
-                    scs.push_back(s2[j - 1]);
-                    j--;
-                }
+            // Move towards larger LCS
+            else if (dp[i - 1][j] > dp[i][j - 1]) {
+                ans.push_back(s1[i - 1]);
+                i--;
+            }
+            else {
+                ans.push_back(s2[j - 1]);
+                j--;
             }
         }
 
-        // If characters remain in s1,
+        // Remaining characters
         while (i > 0) {
-            scs.push_back(s1[i - 1]);
+            ans.push_back(s1[i - 1]);
             i--;
         }
-        // If characters remain in s2,
+
         while (j > 0) {
-            scs.push_back(s2[j - 1]);
+            ans.push_back(s2[j - 1]);
             j--;
         }
 
-        reverse(scs.begin(), scs.end());
+        reverse(ans.begin(), ans.end());
 
-        return scs;
+        return ans;
     }
 };
