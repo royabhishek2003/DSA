@@ -1,7 +1,7 @@
 class Solution {
 public:
     int n;
-    int dp[101][51][2];
+    int dp[101][49][2];
     int solve(int i, auto &piles,int m, int turn){
 
         if(i>=n){
