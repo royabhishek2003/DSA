@@ -16,8 +16,8 @@ public:
         }
     ) - offers.begin();
     int take = offers[i][2] + solve(offers, next);
-        int not_take= solve(offers,i+1);
-        return dp[i]=max(take,not_take);
+    int not_take= solve(offers,i+1);
+    return dp[i]=max(take,not_take);
         
     }
     int maximizeTheProfit(int n, vector<vector<int>>& offers) {
