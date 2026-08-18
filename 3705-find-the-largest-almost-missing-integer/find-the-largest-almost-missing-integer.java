@@ -1,11 +1,6 @@
 class Solution {
     public int largestInteger(int[] nums, int k) {
         int n= nums.length;
-        int temp[]= new int[n];
-        for(int i=0;i<n;i++){
-            temp[i]=nums[i];
-        }
-        Arrays.sort(temp);
         int maxele=-1;
         for(int ele: nums){
             maxele=Math.max(maxele,ele);
@@ -15,10 +10,14 @@ class Solution {
         if(k==n){
             return maxele;
         }
+        int maxelefreq1=-1;
         if(k==1){
            for(int i=n-1;i>=0;i--){
-            if(freq[temp[i]]==1) return temp[i];
+                if(freq[nums[i]]==1){
+                    maxelefreq1= Math.max(maxelefreq1,nums[i]);
+                }
            }
+           return maxelefreq1;
         }
        
 
