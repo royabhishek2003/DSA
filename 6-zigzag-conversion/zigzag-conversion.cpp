@@ -1,7 +1,7 @@
 class Solution {
 public:
     string convert(string s, int numRows) {
-        if(numRows ==1) return s;
+        if(numRows == 1) return s;
         vector<vector<char>> temp(numRows);
         int i=0;
         bool reverseorder=false;
