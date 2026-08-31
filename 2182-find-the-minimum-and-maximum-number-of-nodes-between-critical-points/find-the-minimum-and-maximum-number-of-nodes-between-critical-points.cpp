@@ -10,7 +10,7 @@ public:
         ListNode* curr= head->next;
         int count=1;
         while(curr->next){
-            if(curr->val > prev->val && curr->val > curr->next->val){
+            if(curr->val > prev->val && curr->val > curr->next->val || curr->val < prev->val && curr->val < curr->next->val){
                 if(secondlast == -1){
                     secondlast=count;
                     first=secondlast;
@@ -24,20 +24,6 @@ public:
                     mindis= min(mindis,count-secondlast);
                 }
                 
-            }
-            else if(curr->val < prev->val && curr->val < curr->next->val){
-                if(secondlast == -1){
-                    secondlast=count;
-                    first=secondlast;
-                }
-                else if(last == -1){
-                    mindis= min(mindis, count - secondlast);
-                    last=count;
-                }else{
-                    secondlast= last;
-                    last=count;
-                    mindis= min(mindis,count-secondlast);
-                }
             }
             count+=1;
             curr= curr->next;
