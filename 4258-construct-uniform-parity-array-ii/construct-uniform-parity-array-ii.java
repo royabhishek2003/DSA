@@ -1,42 +1,16 @@
 class Solution {
     public boolean uniformArray(int[] nums1) {
-        
-        Arrays.sort(nums1);
+    // agar ek bhi element odd ho gya toh sre element odd ban sakta hai bas wo element odd wale se bada ho 
+    // sbase chota odd ko pakdo aur koi even us odd se bi chota ho toh impossible hai otherwise its possible 
 
-        boolean iseven= true;
-        boolean isodd= true;
-        int evencount=0;
-        int oddcount=0;
-        for(int ele: nums1){
-            if(ele %2 ==0) {
-                evencount+=1;
-                continue;
-            }
-            if(oddcount ==0) {
-                iseven=false;
-                break;
-            }
-            if(ele %2 ==0) evencount+=1;
-                else oddcount+=1;
-        }
-        if(iseven) return true;
-        oddcount=0;
-        evencount=0;
-        for(int ele: nums1){
-            if(ele % 2 !=0){
-                oddcount+=1;
-                continue;
-            }
-            if(oddcount ==0) {
-                isodd=false;
-                break;
-            }
-            if(ele %2 ==0) evencount+=1;
-                else oddcount+=1;
-        }
-        if(isodd) return true;
+    int oddmin=Integer.MAX_VALUE;
+    for(int ele: nums1){
+        if(ele % 2!=0 ) oddmin= Math.min(ele,oddmin);
+    }
 
-        return false;
-
+    for(int ele: nums1){
+        if(ele % 2==0 && oddmin != Integer.MAX_VALUE && ele <= oddmin) return false;
+    }
+    return true;
     }
 }
