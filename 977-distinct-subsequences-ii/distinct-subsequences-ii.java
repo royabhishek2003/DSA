@@ -6,7 +6,7 @@ class Solution {
             return 1;
         }
         if(dp[n] != -2) return dp[n];
-        int  currans= (int)(2L*solve(n-1,prev)) % mod ;
+        int  currans= (2*solve(n-1,prev)) % mod ;
         int duplicates=0;
         if(prev[n-1]!=-1){
             duplicates= solve(prev[n-1], prev);
