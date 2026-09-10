@@ -2,32 +2,27 @@
 class Solution {
 public:
     int count=0;
-    void findsum_node(TreeNode* root, int &sum, int &node){
-       
-       if(root==NULL){
-          return;
-       }
-       sum+=root->val;
-       node+=1;
-       if(root->left){
-        findsum_node(root->left, sum, node);
-       }
-       if(root->right){
-        findsum_node(root->right, sum, node);
-       }
-    
-    }
-    void solve( TreeNode* root){
+    void solve( TreeNode* root, int &sum, int &nodes){
         if(root==NULL) return;
-        int sum=0;
-        int nodes=0;
-        findsum_node(root, sum,nodes);
-        if(sum/nodes  ==  root->val) count++;
-        solve(root->left);
-        solve(root->right);
+        int prevsum= sum;
+        int prevnodes=nodes;
+        sum+=root->val;
+        nodes+=1;
+        if(root->left){
+            solve(root->left, sum,nodes);
+        }
+        if(root->right){
+            solve(root->right, sum, nodes);
+        }
+
+        int subtreesum = sum - prevsum;
+        int subtreenode= nodes - prevnodes;
+        if(subtreesum / subtreenode == root->val) count++;
     }
     int averageOfSubtree(TreeNode* root) {
-        solve(root);
+        int sum=0;
+        int nodes=0;
+        solve(root,sum,nodes);
         return count;
     }
 };
