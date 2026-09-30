@@ -15,7 +15,7 @@ public:
             int x= q.front()[0];
             int y= q.front()[1];
             int open= q.front()[2];
-            int remainingstep= n-1-x + m-1-y;
+            int remainingstep= n-1-x + m-1-y +1;
             q.pop();
             if(x==n-1 && y==m-1 && open==0) return true;
             if(open > remainingstep) continue;
