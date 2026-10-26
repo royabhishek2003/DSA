@@ -2,7 +2,7 @@ class Solution {
 public:
     int n,m;
     vector<vector<int>> direction={{0,1},{1,0},{-1,0},{0,-1}};
-    long long   bfs(auto &visited, auto &grid,long long sum, int i, int j){
+    long long  bfs(auto &visited, auto &grid,long long sum, int i, int j){
         queue<pair<int,int>> q;
         q.push({i,j});
         visited[i][j]=true;
