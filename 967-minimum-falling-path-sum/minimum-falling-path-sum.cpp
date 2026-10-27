@@ -3,6 +3,7 @@ public:
     int n,m;
     int dp[101][101];
     bool vis[101][101];
+    vector<int> column={0,-1,1};
     int solve(vector<vector<int>> &matrix, int i, int j){
         if(i==n-1){
             return matrix[i][j];
@@ -10,13 +11,9 @@ public:
         if(vis[i][j]) return dp[i][j];
         vis[i][j]=true;
         int minsum=INT_MAX;
-        if(i+1 <n)
-        minsum= min(minsum, matrix[i][j] + solve(matrix,i+1,j));
-        if(j+1 <m && i+1 <n){
-        minsum= min(minsum, matrix[i][j] + solve(matrix,i+1,j+1));
-        }
-        if(j-1 >=0 && i+1 <n){
-        minsum= min(minsum, matrix[i][j] + solve(matrix,i+1,j-1));
+        for(int &col:column ){
+            if(i+1<n && j+col <m && j+col >=0)
+            minsum= min(minsum, matrix[i][j] + solve(matrix,i+1,j+col));
         }
         return dp[i][j]= minsum;
 
