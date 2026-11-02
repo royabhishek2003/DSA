@@ -24,9 +24,25 @@ public:
         }
     }
     int maxProfit(vector<int>& prices) {
-        n= prices.size();
-        int maxval= *(max_element(prices.begin(),prices.end()));
-        vector<vector<int>> dp(n+1,vector<int>(2,-1));
-        return solve(prices,0,false,dp);
+        // n= prices.size();
+        // int maxval= *(max_element(prices.begin(),prices.end()));
+        // vector<vector<int>> dp(n+1,vector<int>(2,-1));
+        // return solve(prices,0,false,dp);
+
+        // using tabulation approach 
+        int n= prices.size();
+        vector<vector<int>> t(n+1, vector<int> (2,0));
+        t[n][0]=0;
+        t[n][1]=0;
+        for(int i=n-1;i>=0;i--){
+            for(int j=1;j>=0;j--){
+                if(j==0){
+                    t[i][j]= max(-prices[i] + t[i+1][1], t[i+1][0]);
+                }else{
+                    t[i][j]= max(prices[i] + t[i+1][0], t[i+1][1]);
+                }
+            }
+        }
+        return t[0][0];
     }
 };
