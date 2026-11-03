@@ -20,23 +20,38 @@ public:
         }
     }
     int maxProfit(vector<int>& prices) {
-        n= prices.size();
-        vector<vector<vector<int>>> dp(n+1,vector<vector<int>>(2,vector<int>(3,-1)));
-        return solve(prices,0,true,0,dp);
+        // n= prices.size();
+        // vector<vector<vector<int>>> dp(n+1,vector<vector<int>>(2,vector<int>(3,-1)));
+        // return solve(prices,0,true,0,dp);
 
         // using tabulation 
-        // int n= prices.size();
-        // vector<vector<vector<int>>> t(n+1,vector<vector<int>>(3,vector<int>(3,0)));
-        // t[n][2][1]=0;
-        // for(int i=n-1;i>=0;i--){
-        //     for(int j=0;j<3;j++){
-        //         for(int k=0;k<3;k++){
-        //             if(j!=0){
-
-        //             }
-        //         }
-        //     }
-        // }
+        int n= prices.size();
+        vector<vector<vector<int>>> t(n+1,vector<vector<int>>(3,vector<int>(3,0)));
+        for(int i=0;i<2;i++){
+            for(int j=0;j<3;j++){
+                t[n][i][j]=0;
+            }
+        }
+        for(int i=n-1;i>=0;i--){
+            for(int j=0;j<2;j++){
+                for(int k=0;k<3;k++){
+                    if(j==1){
+                        if(k<2){
+                            t[i][j][k]= max(-prices[i]+ t[i+1][0][k+1], 
+                                        t[i+1][1][k]);
+                        }
+                        else{
+                             t[i][j][k]= 0;
+                        }
+                        
+                    }else{
+                        t[i][j][k]= max(prices[i] + t[i+1][1][k],
+                                        t[i+1][0][k]);
+                    }
+                }
+            }
+        }
+        return t[0][1][0];
 
     }
 };
