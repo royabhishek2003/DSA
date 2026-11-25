@@ -23,20 +23,20 @@ public:
         // return solve(nums,0,0, dp);
 
         // using Tabulation 
-        bool ans=false;
-        vector<vector<int>> t(n+1,vector<int>(totalsum+1,0));
+        int targetsum= totalsum/2 ;
+        vector<vector<int>> t(n+1,vector<int>(targetsum+1,0));
         for(int i=n-1;i>=0;i--){
-            for(int sum=0;sum<=totalsum;sum++){
-                if(sum > (totalsum/2)){
+            for(int sum=0;sum<=targetsum;sum++){
+                if(sum > targetsum){
                     t[i][sum]=0;
                     continue;
                 }
-                if(sum == (totalsum/2)){
+                if(sum == targetsum){
                     t[i][sum]=1;
                     continue;
                 }
                 int take=0;
-                if(sum+ nums[i] <= totalsum){
+                if(sum+ nums[i] <= targetsum){
                     take=  t[i+1][sum+nums[i]];
                 }
                 int not_take = t[i+1][sum];
